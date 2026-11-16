@@ -1,0 +1,623 @@
+/* Shared Rune display font, also used for game titles in Rune OS. */
+@font-face {
+    font-family: "Rune Header";
+    src: url("../../otf/runeos_font_header.otf") format("opentype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* Rune palette matches rune-os Config.DEFAULTS. */
+:root {
+    color-scheme: dark;
+    --background: #101722;
+    --panel: #151c28;
+    --surface: #26354a;
+    --text: #ffffff;
+    --muted: #b4c1d3;
+    --accent: #ff7078;
+    --border: #63758f;
+    --divider: #35465e;
+    --focus: #ffffff;
+    --danger: #f1afb4;
+    --danger-surface: #44282f;
+    --overlay: rgba(0, 0, 0, .7);
+    --radius: .3rem;
+    --font-heading: "Rune Header", system-ui, sans-serif;
+}
+
+/* Responsive page and Rune identity. */
+* {
+    box-sizing: border-box;
+}
+
+[hidden] {
+    display: none !important;
+}
+
+body {
+    margin: 0;
+    background: var(--background);
+    color: var(--text);
+    font: clamp(1rem, .94rem + .25vw, 1.125rem)/1.6 system-ui, sans-serif;
+}
+
+main {
+    width: min(calc(100% - 2 * clamp(1rem, 4vw, 4rem)), 76rem);
+    margin: clamp(1.5rem, 4vw, 4rem) auto;
+}
+
+header {
+    display: flex;
+    align-items: baseline;
+    gap: .9rem;
+    margin-bottom: clamp(1.5rem, 3vw, 3rem);
+    color: var(--muted);
+    font-size: clamp(1.5rem, 4vw, 2rem);
+    line-height: 1.2;
+}
+
+h1,
+h2,
+h3,
+.mark,
+.content-list strong {
+    font-family: var(--font-heading);
+    font-weight: 400;
+    font-synthesis: none;
+}
+
+.mark {
+    color: var(--accent);
+    font-size: clamp(2.75rem, 6vw, 4rem);
+    letter-spacing: .08em;
+}
+
+section {
+    min-width: 0;
+    padding: clamp(1.25rem, 3vw, 3rem);
+    background: var(--panel);
+    border: 1px solid var(--divider);
+    border-radius: var(--radius);
+}
+
+[data-login] {
+    max-width: 44rem;
+    margin-inline: auto;
+}
+
+h1 {
+    margin: 0 0 .75rem;
+    font-size: clamp(1.65rem, 3vw, 2.25rem);
+}
+
+h2 {
+    margin: 0;
+    font-size: clamp(1.4rem, 2.5vw, 1.85rem);
+}
+
+h3 {
+    font-size: 1.25rem;
+    margin: 1.5rem 0 .75rem;
+}
+
+p {
+    color: var(--muted);
+}
+
+.content-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+}
+
+.hint,
+.content-id,
+.content-status,
+.empty {
+    color: var(--muted);
+    font-size: .9em;
+}
+
+.content-id,
+.content-status {
+    overflow-wrap: anywhere;
+}
+
+.content-status {
+    color: var(--accent);
+}
+
+[role=status] {
+    min-height: 1.6em;
+    overflow-wrap: anywhere;
+}
+
+/* Secondary is the default; only explicit primary actions use the Rune accent. */
+input,
+textarea,
+select,
+button {
+    font: inherit;
+    border-radius: var(--radius);
+}
+
+button {
+    min-height: 2.75rem;
+    padding: .65rem 1.1rem;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text);
+    cursor: pointer;
+    line-height: 1.4;
+}
+
+button:hover:not(:disabled) {
+    background: var(--surface);
+    border-color: var(--muted);
+}
+
+button.primary {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--background);
+}
+
+button.primary:hover:not(:disabled) {
+    filter: brightness(1.08);
+}
+
+button:active:not(:disabled) {
+    transform: translateY(1px);
+}
+
+button:disabled {
+    opacity: .5;
+    cursor: not-allowed;
+}
+
+button.danger {
+    background: transparent;
+    border-color: var(--danger);
+    color: var(--danger);
+}
+
+button.danger:hover:not(:disabled),
+button.confirm-delete {
+    background: var(--danger-surface);
+}
+
+:focus-visible {
+    outline: 2px solid var(--focus);
+    outline-offset: 3px;
+}
+
+[data-module] > h1[tabindex="-1"]:focus-visible,
+.content-heading h2[tabindex="-1"]:focus-visible {
+    outline: none;
+}
+
+.actions,
+.card-actions {
+    display: flex;
+    gap: .75rem;
+    flex-wrap: wrap;
+}
+
+.actions {
+    justify-content: flex-end;
+}
+
+.card-actions {
+    margin-top: .75rem;
+    align-items: center;
+}
+
+.card-actions .danger {
+    margin-inline-start: auto;
+}
+
+[data-version-actions] button {
+    margin: .25rem .25rem .25rem 0;
+}
+
+/* Content cards grow into columns when space permits. */
+.content-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1.5rem;
+}
+
+.content-list li {
+    min-width: 0;
+    margin-bottom: .75rem;
+    padding: 1.25rem;
+    background: var(--surface);
+    border: 1px solid var(--divider);
+    border-radius: var(--radius);
+    overflow-wrap: anywhere;
+}
+
+[data-games],
+[data-screensavers] {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 25rem), 1fr));
+    gap: 1.25rem;
+}
+
+[data-games] li,
+[data-screensavers] li {
+    display: flex;
+    flex-direction: column;
+    gap: .25rem;
+    margin: 0;
+}
+
+.content-list strong {
+    font-size: 1.4rem;
+}
+
+.card-actions button {
+    font-size: .9em;
+}
+
+/* Form fields remain usable on small screens and expand on desktop. */
+label {
+    display: block;
+    min-width: 0;
+    margin-bottom: .75rem;
+}
+
+input,
+textarea,
+select {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    padding: .8rem;
+    margin-top: .35rem;
+    color: var(--text);
+    background: var(--background);
+    border: 1px solid var(--border);
+}
+
+textarea {
+    resize: vertical;
+}
+
+select {
+    margin-bottom: 1rem;
+}
+
+input:hover:not(:disabled),
+textarea:hover:not(:disabled),
+select:hover:not(:disabled) {
+    border-color: var(--muted);
+}
+
+fieldset {
+    min-width: 0;
+    padding: clamp(1rem, 2vw, 1.5rem);
+    margin: 1rem 0;
+    border: 1px solid var(--divider);
+    border-radius: var(--radius);
+}
+
+legend {
+    color: var(--muted);
+    padding: 0 .4rem;
+}
+
+input[type=checkbox] {
+    display: inline-block;
+    width: auto;
+    margin: 0 .3rem 0 0;
+    accent-color: var(--accent);
+}
+
+input[type=range] {
+    padding: 0;
+    accent-color: var(--accent);
+}
+
+input[type=file] {
+    font-size: .9em;
+}
+
+.metadata-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: .75rem 1.5rem;
+}
+
+.columns {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+.wide {
+    grid-column: 1 / -1;
+}
+
+[data-tags] {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 25rem), 1fr));
+    gap: 1.5rem;
+    align-items: start;
+}
+
+.tag-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 6rem;
+    gap: .5rem;
+    padding: .8rem 0;
+    border-bottom: 1px solid var(--divider);
+}
+
+.tag-row label {
+    grid-column: 1 / -1;
+    margin: 0;
+}
+
+.tag-row input:disabled {
+    opacity: .4;
+}
+
+[data-workspace] {
+    display: grid;
+    gap: 1.5rem;
+    align-items: start;
+}
+
+[data-workspace] > form fieldset {
+    margin-top: 0;
+}
+
+/* Destructive confirmation stays distinct from ordinary primary actions. */
+dialog {
+    width: min(calc(100% - 2rem), 36rem);
+    max-height: calc(100dvh - 2rem);
+    overflow: auto;
+    padding: clamp(1.25rem, 3vw, 2rem);
+    background: var(--panel);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+}
+
+dialog::backdrop {
+    background: var(--overlay);
+}
+
+::selection {
+    background: var(--accent);
+    color: var(--background);
+}
+
+@media (min-width: 900px) {
+    .metadata-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    [data-workspace] {
+        grid-template-columns: minmax(16rem, .8fr) minmax(0, 1.2fr);
+        gap: 2rem;
+    }
+
+    [data-selection],
+    [data-empty] {
+        grid-column: 2;
+    }
+}
+
+@media (max-width: 540px) {
+    .columns {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .content-heading {
+        align-items: flex-start;
+    }
+
+    .card-actions {
+        align-items: stretch;
+    }
+
+    .card-actions button {
+        flex: 1 1 100%;
+    }
+
+    .card-actions .danger {
+        margin-inline-start: 0;
+    }
+
+    .actions button {
+        flex: 1 1 auto;
+    }
+
+    [data-version-actions] button {
+        display: block;
+        width: 100%;
+        margin: .5rem 0 0;
+    }
+}
+
+/* Status is conveyed by text and shape as well as the Rune palette. */
+.status-badge {
+    display: inline-flex;
+    align-self: flex-start;
+    width: fit-content;
+    max-width: 100%;
+    padding: .15rem .65rem;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    font-size: .75em;
+    font-weight: 600;
+    line-height: 1.6;
+}
+
+.status-active {
+    color: var(--accent);
+    border-color: var(--accent);
+    background: rgba(255, 112, 120, .1);
+}
+
+.status-published {
+    color: #c4daf4;
+    border-color: var(--border);
+    background: #1c3049;
+}
+
+.status-draft {
+    color: var(--muted);
+    border-style: dashed;
+    background: transparent;
+}
+
+.unsaved {
+    display: inline-block;
+    margin: 0 0 1rem;
+    padding: .25rem .65rem;
+    border: 1px solid var(--accent);
+    border-radius: var(--radius);
+    color: var(--accent);
+    font-size: .85em;
+    min-height: 0;
+}
+
+/* Selected-version guidance distinguishes missing uploads from file readiness. */
+.next-step {
+    padding: 1rem 1.25rem;
+    margin: 1rem 0;
+    background: var(--surface);
+    border: 1px solid var(--divider);
+    border-inline-start: 3px solid var(--border);
+    border-radius: var(--radius);
+}
+
+.next-step strong {
+    display: block;
+    font-size: 1em;
+}
+
+.next-step p {
+    margin: .35rem 0 0;
+    font-size: .9em;
+}
+
+.next-ready,
+.next-active {
+    border-inline-start-color: var(--accent);
+}
+
+.next-ready strong,
+.next-active strong {
+    color: var(--accent);
+}
+
+/* Every module uses the same accessible error and status presentation. */
+.feedback {
+    margin: 1rem 0;
+    overflow-wrap: anywhere;
+}
+
+.feedback p {
+    margin: 0;
+}
+
+.feedback-error {
+    padding: 1rem 1.25rem;
+    border: 1px solid var(--danger);
+    border-inline-start-width: 4px;
+    border-radius: var(--radius);
+    background: var(--danger-surface);
+    color: var(--text);
+}
+
+.feedback-error > strong {
+    display: block;
+    margin-bottom: .35rem;
+    color: var(--danger);
+}
+
+.feedback-error p {
+    color: var(--text);
+}
+
+.feedback details {
+    margin-top: .65rem;
+    font-size: .85em;
+}
+
+.feedback summary {
+    cursor: pointer;
+    color: var(--muted);
+}
+
+.feedback code {
+    display: block;
+    margin-top: .35rem;
+    white-space: normal;
+    color: var(--muted);
+}
+
+/* Version stage is independent of publication status. */
+.badges {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: .5rem;
+}
+
+.stage-alpha {
+    color: var(--muted);
+    border-style: dashed;
+}
+
+.stage-beta {
+    color: #c4daf4;
+    background: #1c3049;
+}
+
+.stage-gold {
+    color: var(--text);
+    border-color: var(--text);
+}
+
+/* Identifiers stay readable while names and publication state take precedence. */
+.content-id {
+    display: inline-block;
+    align-self: flex-start;
+    width: fit-content;
+    max-width: 100%;
+    padding: .2rem .55rem;
+    border: 1px solid var(--divider);
+    border-radius: var(--radius);
+    background: rgba(99, 117, 143, .12);
+    color: var(--muted);
+    font-family: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace;
+    font-size: .8em;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+[data-identifier] {
+    margin-top: .25rem;
+    margin-bottom: 1.5rem;
+}
+
+.section-description {
+    max-width: 65ch;
+    margin: -.25rem 0 1.5rem;
+    color: var(--muted);
+    font-size: .95em;
+}
+
+/* Give publication badges breathing room below the content identifier. */
+.content-list .content-id + .badges {
+    margin-top: .6rem;
+}

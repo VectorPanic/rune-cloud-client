@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Rune Cloud</title>
+    <link rel="stylesheet" href="src/css/style.css">
+    <script defer src="src/js/runeclient.js"></script>
+</head>
+<body>
+    <main data-app>
+        <header><span class="mark">RUNE</span><span>Cloud</span></header>
+        <section data-module="login" data-login>
+            <h1>Developer login</h1>
+            <p>Enter your Rune token to manage your games and screensavers.</p>
+            <form>
+                <label for="token">Rune token</label>
+                <input id="token" name="token" type="password" autocomplete="off" autocapitalize="none" spellcheck="false" required aria-describedby="storage-note">
+                <p id="storage-note" class="hint">Your token stays in this tab until you log out or close the tab.</p>
+                <button type="submit" class="primary">Log in</button>
+            </form>
+        </section>
+        <section data-module="account" data-account hidden>
+            <h1 data-name></h1>
+            <p data-identifier class="content-id"></p>
+            <div data-content>
+                <div class="content-heading"><h2>Your content</h2><button type="button">Refresh</button></div>
+                <p class="section-description">Manage your games and screensavers. Edit metadata, upload version files, and choose what to publish to Rune OS.</p>
+                <div data-feedback class="feedback" role="status" aria-live="polite" hidden>
+                <strong data-feedback-title hidden></strong>
+                <p data-feedback-message></p>
+                <details data-feedback-details hidden><summary>Technical details</summary><code data-feedback-code></code></details>
+            </div>
+                <div class="content-heading"><h3>Games</h3><button type="button" class="primary" data-new-content="games">New game</button></div>
+                <ul data-games class="content-list"></ul>
+                <div class="content-heading"><h3>Screensavers</h3><button type="button" class="primary" data-new-content="screensavers">New screensaver</button></div>
+                <ul data-screensavers class="content-list"></ul>
+            </div>
+            <button type="button" data-logout>Log out</button>
+        </section>
+        <section data-module="create" data-create-content hidden>
+            <div class="content-heading"><h2>New content</h2><button type="button" data-close>Back to content</button></div>
+            <div data-feedback class="feedback" role="status" aria-live="polite" hidden>
+                <strong data-feedback-title hidden></strong>
+                <p data-feedback-message></p>
+                <details data-feedback-details hidden><summary>Technical details</summary><code data-feedback-code></code></details>
+            </div>
+            <form data-changes>
+                <p data-unsaved class="unsaved" role="status" hidden>Unsaved changes</p>
+                <fieldset>
+                    <legend>Basic metadata</legend>
+                    <div class="metadata-grid">
+                        <label>Identifier <input name="id" maxlength="100" pattern="[a-z][a-z0-9\-]*" autocomplete="off" autocapitalize="none" spellcheck="false" required aria-describedby="identifier-note"></label>
+                        <label>Name <input name="name" maxlength="255" required></label>
+                        <p id="identifier-note" class="hint wide">A permanent identifier, such as my-game. Use lowercase letters, numbers and hyphens. It cannot be changed later.</p>
+                        <label>Year <input name="year" type="number" min="0" max="65535" step="1"></label>
+                        <div data-game-fields class="wide">
+                            <label>Description <textarea name="description" rows="4"></textarea></label>
+                            <p class="hint">After creation, configure players, input and tags in the metadata editor.</p>
+                        </div>
+                        <div data-screensaver-fields class="wide" hidden>
+                            <label>Author <input name="author" maxlength="255" placeholder="Your developer name"></label>
+                            <p class="hint">Leave author empty to use your developer name.</p>
+                            <label><input name="enabled" type="checkbox" checked> Enabled</label>
+                        </div>
+                    </div>
+                    <p class="hint">Creation does not publish anything. Create a version and upload its files afterwards.</p>
+                    <button type="submit" class="primary">Create</button>
+                </fieldset>
+            </form>
+        </section>
+        <section data-module="editor" data-editor hidden>
+            <div class="content-heading"><h2>Edit game</h2><button type="button" data-close>Back to content</button></div>
+            <p data-game-id class="content-id"></p>
+            <div data-feedback class="feedback" role="status" aria-live="polite" hidden>
+                <strong data-feedback-title hidden></strong>
+                <p data-feedback-message></p>
+                <details data-feedback-details hidden><summary>Technical details</summary><code data-feedback-code></code></details>
+            </div>
+            <form hidden data-changes>
+                <p data-unsaved class="unsaved" role="status" hidden>Unsaved changes</p>
+                <fieldset data-fields>
+                    <legend>Metadata</legend>
+                    <div class="metadata-grid">
+                    <label>Name <input name="name" maxlength="255" required></label>
+                    <label>Year <input name="year" type="number" min="0" max="65535" step="1"></label>
+                    <label class="wide">Description <textarea name="description" rows="4"></textarea></label>
+                    <div class="columns wide">
+                        <label>Minimum players <input name="minimum" type="number" min="1" max="255" step="1" required></label>
+                        <label>Maximum players <input name="maximum" type="number" min="1" max="255" step="1" required></label>
+                    </div>
+                    <fieldset><legend>Input</legend>
+                        <label class="check"><input name="keyboard" type="checkbox"> Keyboard</label>
+                        <label class="check"><input name="gamepad" type="checkbox"> Gamepad</label>
+                    </fieldset>
+                    <fieldset><legend>Modes</legend>
+                        <label class="check"><input name="coop" type="checkbox"> Cooperative</label>
+                        <label class="check"><input name="versus" type="checkbox"> Versus</label>
+                    </fieldset>
+                    <div data-tags class="wide"></div>
+                    </div>
+                </fieldset>
+                <p class="hint">Save updates metadata. Publish a version to distribute changes to Rune OS.</p>
+                <button type="submit" class="primary">Save</button>
+            </form>
+        </section>
+        <section data-module="versions" data-versions-panel hidden>
+            <div class="content-heading"><h2>Versions &amp; files</h2><button type="button" data-close>Back to content</button></div>
+            <p data-content-id class="content-id"></p>
+            <div data-feedback class="feedback" role="status" aria-live="polite" hidden>
+                <strong data-feedback-title hidden></strong>
+                <p data-feedback-message></p>
+                <details data-feedback-details hidden><summary>Technical details</summary><code data-feedback-code></code></details>
+            </div>
+            <div data-workspace hidden>
+                <form data-create-version data-changes>
+                <p data-unsaved class="unsaved" role="status" hidden>Unsaved changes</p>
+                    <fieldset data-create-fields>
+                        <legend>New draft</legend>
+                        <label>Version <input name="version" maxlength="50" pattern="[a-zA-Z0-9][a-zA-Z0-9._\-]*" placeholder="1.0.0" required></label>
+                        <label data-stage>Stage
+                            <select name="stage"><option value="alpha">Alpha</option><option value="beta">Beta</option><option value="gold">Gold</option></select>
+                        </label>
+                        <button type="submit">Create draft</button>
+                    </fieldset>
+                </form>
+                <p data-empty>No versions yet. Create your first draft above.</p>
+                <div data-selection hidden>
+                    <label>Version <select data-version></select></label>
+                    <div class="badges">
+                        <span data-version-status hidden></span>
+                        <span data-version-stage hidden></span>
+                    </div>
+                    <p data-active-version></p>
+                    <div data-next-step class="next-step" role="status" hidden>
+                        <strong data-next-title></strong>
+                        <p data-next-detail></p>
+                    </div>
+                    <fieldset data-version-actions>
+                        <legend>Publication</legend>
+                        <p class="hint">Publishing distributes this version with the saved metadata to Rune OS.</p>
+                        <button type="button" class="primary" data-publish>Publish version</button>
+                        <button type="button" class="danger" data-delete-version>Delete version</button>
+                    </fieldset>
+                    <h3>Uploaded files</h3>
+                    <ul data-files class="content-list"></ul>
+                    <p data-locked hidden>This version has been published and its files are locked. Create a new draft to upload changes.</p>
+                    <form data-upload data-changes hidden>
+                <p data-unsaved class="unsaved" role="status" hidden>Unsaved changes</p>
+                        <fieldset data-upload-fields>
+                            <legend>Upload files</legend>
+                            <div data-game-files>
+                                <label>JavaScript <input name="game" type="file" accept=".js"></label>
+                                <label>PNG icon atlas <input name="icon" type="file" accept=".png"></label>
+                                <p class="hint">The icon atlas must be 442 × 884 pixels. Select either file or both. Uploading replaces the selected draft files.</p>
+                            </div>
+                            <label data-screensaver-file>JavaScript <input name="file" type="file" accept=".js"></label>
+                            <button type="submit" class="primary">Upload files</button>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </section>
+        <dialog data-confirm aria-labelledby="confirm-title" aria-describedby="confirm-message">
+            <form method="dialog">
+                <h2 id="confirm-title">Permanent deletion</h2>
+                <p id="confirm-message" data-confirm-message></p>
+                <div class="actions">
+                    <button value="cancel" autofocus>Cancel</button>
+                    <button value="confirm" class="danger confirm-delete">Delete permanently</button>
+                </div>
+            </form>
+        </dialog>
+        <dialog data-discard aria-labelledby="discard-title" aria-describedby="discard-message">
+            <h2 id="discard-title">Unsaved changes</h2>
+            <p id="discard-message" data-confirm-message></p>
+            <form method="dialog" class="actions">
+                <button value="cancel" autofocus>Keep editing</button>
+                <button value="confirm" class="danger">Discard changes</button>
+            </form>
+        </dialog>
+        <div data-login-status class="feedback" role="status" aria-live="polite" hidden>
+                <strong data-feedback-title hidden></strong>
+                <p data-feedback-message></p>
+                <details data-feedback-details hidden><summary>Technical details</summary><code data-feedback-code></code></details>
+            </div>
+    </main>
+</body>
+</html>
