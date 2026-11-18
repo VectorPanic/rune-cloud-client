@@ -18,6 +18,12 @@ The client is written in HTML, CSS, and vanilla JavaScript. It is an early-stage
 
 Not all Rune Cloud functionality is available through the client.
 
+### Content identifiers
+
+When creating a game, enter the exact application ID from the Rune SDK configuration: the `developer` and `app` values joined by a dot. For example, `developer: "com.vectorpanic"` and `app: "demo"` produce `com.vectorpanic.demo`. The ID is permanent and limited to 100 characters. Its first segment contains two or three lowercase letters; the developer name contains 1–50 lowercase letters, digits or hyphens; the app name contains letters, digits, underscores or hyphens. The app name may contain uppercase letters, and the complete ID must match the game's configuration exactly. Rune Cloud does not allow two game IDs that differ only in letter case.
+
+Screensavers use a separate identifier format: start with a lowercase letter, followed by lowercase letters, digits or hyphens, up to 100 characters.
+
 ## Requirements
 
 - A running [Rune Cloud](https://github.com/VectorPanic/rune-cloud) installation.

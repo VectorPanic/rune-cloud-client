@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Rune Cloud</title>
     <link rel="stylesheet" href="src/css/style.css">
-    <script defer src="src/js/runeclient.js"></script>
+    <script defer src="src/js/runeclient.js?v=20261118-sdk-id-3"></script>
 </head>
 <body>
     <main data-app>
@@ -50,9 +50,9 @@
                 <fieldset>
                     <legend>Basic metadata</legend>
                     <div class="metadata-grid">
-                        <label>Identifier <input name="id" maxlength="100" pattern="[a-z][a-z0-9\-]*" autocomplete="off" autocapitalize="none" spellcheck="false" required aria-describedby="identifier-note"></label>
+                        <label>Identifier <input name="id" maxlength="100" autocomplete="off" autocapitalize="none" spellcheck="false" required aria-describedby="identifier-note"></label>
                         <label>Name <input name="name" maxlength="255" required></label>
-                        <p id="identifier-note" class="hint wide">A permanent identifier, such as my-game. Use lowercase letters, numbers and hyphens. It cannot be changed later.</p>
+                        <p id="identifier-note" class="hint wide"></p>
                         <label>Year <input name="year" type="number" min="0" max="65535" step="1"></label>
                         <div data-game-fields class="wide">
                             <label>Description <textarea name="description" rows="4"></textarea></label>

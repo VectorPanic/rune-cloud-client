@@ -80,7 +80,11 @@ runeclient.view.Create.prototype.bind = function(save, close) {
 runeclient.view.Create.prototype.open = function(kind) {
     this.m_root.querySelector("form").reset();
     this.m_root.setAttribute("data-kind", kind);
+    this.m_root.querySelector("[name=id]").removeAttribute("pattern");
     this.m_root.querySelector("h2").textContent = kind === "games" ? "New game" : "New screensaver";
+    this.m_root.querySelector("#identifier-note").textContent = kind === "games" ?
+        "Use the exact SDK ID (developer + app), matching letter case, for example com.vectorpanic.demo. Maximum 100 characters; it cannot be changed later." :
+        "Start with a lowercase letter, then use lowercase letters, numbers or hyphens. Maximum 100 characters; it cannot be changed later.";
     this.m_root.querySelector("[data-game-fields]").hidden = kind !== "games";
     this.m_root.querySelector("[data-screensaver-fields]").hidden = kind !== "screensavers";
     this.m_root.hidden = false;
@@ -135,7 +139,13 @@ runeclient.view.Create.prototype.read = function(kind) {
     var id = form.querySelector("[name=id]").value.trim();
     var name = form.querySelector("[name=name]").value.trim();
     var year = form.querySelector("[name=year]").value;
-    if (!/^[a-z][a-z0-9-]{0,99}$/.test(id)) throw new Error("Use a lowercase identifier starting with a letter, followed by letters, numbers or hyphens (maximum 100 characters).");
+    if (kind === "games") {
+        if (id.length > 100 || !/^[a-z]{2,3}\.[a-z0-9-]{1,50}\.[a-zA-Z0-9_-]+$/.test(id)) {
+            throw new Error("Enter a valid SDK ID, such as com.vectorpanic.demo: 2–3 lowercase letters, a dot, a lowercase developer name, a dot and the app name (maximum 100 characters).");
+        }
+    } else if (!/^[a-z][a-z0-9-]{0,99}$/.test(id)) {
+        throw new Error("Use a lowercase identifier starting with a letter, followed by letters, numbers or hyphens (maximum 100 characters).");
+    }
     if (!name || name.length > 255) throw new Error("Enter a name of up to 255 characters.");
     var data = {id: id, name: name, year: year === "" ? null : Number(year)};
     if (data.year !== null && (!isFinite(data.year) || Math.floor(data.year) !== data.year || data.year < 0 || data.year > 65535)) throw new Error("Enter a whole year between 0 and 65535, or leave it empty.");

@@ -188,11 +188,11 @@ runeclient.api.Api.prototype.m_failure = function(code, status) {
     var messages = {
         network_error: "Could not connect to Rune Cloud. Check your connection and try again.",
         invalid_response: "Rune Cloud returned an unreadable response. Reload the page or try again later.",
-        game_identifier_taken: "This game identifier is already in use. Choose another identifier.",
+        game_identifier_taken: "This SDK ID is already in use, including IDs that differ only in letter case. Check the existing game and your SDK configuration.",
         screensaver_identifier_taken: "This screensaver identifier is already in use. Choose another identifier.",
         version_exists: "This version already exists. Select it from the version list or choose another version number.",
         version_published: "Published versions are locked. Create a new draft to change files.",
-        invalid_game_id: "Use a lowercase identifier starting with a letter, with only letters, numbers and hyphens.",
+        invalid_game_id: "Enter a valid SDK ID, such as com.vectorpanic.demo: 2–3 lowercase letters, a dot, a lowercase developer name, a dot and the app name (maximum 100 characters).",
         invalid_game_name: "Enter a game name of up to 255 characters.",
         invalid_game_description: "The description is too long. Shorten it and save again.",
         invalid_game_year: "Enter a whole year between 0 and 65535, or leave it empty.",
