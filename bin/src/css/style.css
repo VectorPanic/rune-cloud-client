@@ -356,15 +356,57 @@ input[type=file] {
 
 .tag-row {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) 6rem;
-    gap: .5rem;
-    padding: .8rem 0;
+    grid-template-columns: minmax(0, 1fr) 5rem;
+    gap: .4rem .75rem;
+    padding: 1rem 0;
     border-bottom: 1px solid var(--divider);
 }
 
 .tag-row label {
+    align-self: center;
+    margin: 0;
+}
+
+.tag-group-description,
+.tag-description {
+    color: var(--muted);
+    font-size: .875rem;
+    line-height: 1.4;
+}
+
+.tag-group-description {
+    margin: 0 0 .5rem;
+}
+
+.tag-description {
     grid-column: 1 / -1;
     margin: 0;
+}
+
+.tag-scale {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: .65rem;
+    color: var(--muted);
+    font-size: .8rem;
+}
+
+.tag-scale input {
+    width: 100%;
+}
+
+.tag-row[data-selected="false"] .tag-description,
+.tag-row[data-selected="false"] .tag-scale {
+    opacity: .55;
+}
+
+.tag-rounding-notice {
+    grid-column: 1 / -1;
+    margin: 0;
+    color: var(--muted);
+    font-size: .875rem;
 }
 
 .tag-row input:disabled {
