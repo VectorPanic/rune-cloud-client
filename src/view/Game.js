@@ -20,6 +20,7 @@
  * Owns the game metadata form and delegates tag controls to their dedicated view.
  */
 runeclient.view.Game = function(root, tags, changes, feedback) {
+    
     //--------------------------------------------------------------------------
     // Private properties
     //--------------------------------------------------------------------------
@@ -66,10 +67,11 @@ runeclient.view.Game = function(root, tags, changes, feedback) {
  *
  * @param {function(): *} save Saves current form values.
  * @param {function(): *} close Closes the editor.
+ * @param {function(): *} clearHighscores Requests global highscore deletion.
  *
  * @returns {undefined}
  */
-runeclient.view.Game.prototype.bind = function(save, close) {
+runeclient.view.Game.prototype.bind = function(save, close, clearHighscores) {
     this.m_feedback.bind(this.m_root.querySelector("form"));
     this.m_root.querySelector("form").addEventListener("submit", function(event) {
         event.preventDefault();
@@ -77,6 +79,7 @@ runeclient.view.Game.prototype.bind = function(save, close) {
     });
     var changes = this.m_changes;
     this.m_root.querySelector("[data-close]").addEventListener("click", function() { changes.leave(close); });
+    this.m_root.querySelector("[data-clear-highscores]").addEventListener("click", clearHighscores);
     this.m_tags.bind();
 };
 
@@ -142,6 +145,7 @@ runeclient.view.Game.prototype.show = function(game, tags) {
 runeclient.view.Game.prototype.busy = function(value) {
     this.m_root.querySelector("[data-fields]").disabled = value;
     this.m_root.querySelector("[type=submit]").disabled = value;
+    this.m_root.querySelector("[data-clear-highscores]").disabled = value;
     this.m_root.querySelector("form").setAttribute("aria-busy", String(value));
 };
 

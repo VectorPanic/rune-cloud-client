@@ -4,8 +4,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Rune Cloud</title>
-    <link rel="stylesheet" href="src/css/style.css">
-    <script defer src="src/js/runeclient.js?v=20261118-sdk-id-3"></script>
+    <link rel="stylesheet" href="src/css/style.css?v=20261118-highscores-1">
+    <script defer src="src/js/runeclient.js?v=20261118-highscores-1"></script>
 </head>
 <body>
     <main data-app>
@@ -102,6 +102,11 @@
                 </fieldset>
                 <p class="hint">Save updates metadata. Publish a version to distribute changes to Rune OS.</p>
                 <button type="submit" class="primary">Save</button>
+                <section aria-labelledby="highscores-title">
+                    <h3 id="highscores-title">Global highscores</h3>
+                    <p class="hint">Clear this game's global scores when testing. Locally stored scores may be uploaded again during the next sync.</p>
+                    <button type="button" class="danger" data-clear-highscores>Clear global highscores</button>
+                </section>
             </form>
         </section>
         <section data-module="versions" data-versions-panel hidden>

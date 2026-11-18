@@ -41,7 +41,8 @@ document.addEventListener("DOMContentLoaded", function() {
                 new runeclient.view.Tags(editor.querySelector("[data-tags]")),
                 changes,
                 new runeclient.view.Feedback(editor.querySelector("[data-feedback]"))
-            )
+            ),
+            confirmation
         ),
         new runeclient.version.Versions(
             api, 

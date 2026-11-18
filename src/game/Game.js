@@ -8,6 +8,7 @@
  * @param {runeclient.api.Api} api API transport.
  * @param {runeclient.session.Session} session Current developer session.
  * @param {runeclient.view.Game} view Game form presentation.
+ * @param {runeclient.view.Confirm} confirmation Permanent deletion confirmation.
  *
  * @constructor
  *
@@ -16,7 +17,7 @@
  *
  * Coordinates game metadata reads and writes without owning form presentation or token persistence.
  */
-runeclient.game.Game = function(api, session, view) {
+runeclient.game.Game = function(api, session, view, confirmation) {
     
     //--------------------------------------------------------------------------
     // Private properties
@@ -47,6 +48,14 @@ runeclient.game.Game = function(api, session, view) {
     this.m_view = view;
 
     /**
+     * Confirms permanent deletion of global highscore data.
+     *
+     * @type {runeclient.view.Confirm}
+     * @private
+     */
+    this.m_confirmation = confirmation;
+
+    /**
      * Currently loaded game identifier.
      *
      * @type {?string}
@@ -61,6 +70,14 @@ runeclient.game.Game = function(api, session, view) {
      * @private
      */
     this.m_request = 0;
+
+    /**
+     * Whether a write is in progress.
+     *
+     * @type {boolean}
+     * @private
+     */
+    this.m_pending = false;
 };
 
 //------------------------------------------------------------------------------
@@ -76,7 +93,7 @@ runeclient.game.Game = function(api, session, view) {
  * @returns {undefined}
  */
 runeclient.game.Game.prototype.bind = function(saved, close) {
-    this.m_view.bind(this.save.bind(this, saved), close);
+    this.m_view.bind(this.save.bind(this, saved), close, this.clearHighscores.bind(this));
 };
 
 /**
@@ -87,6 +104,7 @@ runeclient.game.Game.prototype.bind = function(saved, close) {
 runeclient.game.Game.prototype.clear = function() {
     this.m_request++;
     this.m_id = null;
+    this.m_pending = false;
     this.m_view.hide();
     this.m_view.busy(false);
 };
@@ -127,7 +145,7 @@ runeclient.game.Game.prototype.open = function(id) {
  * @returns {Promise<undefined>}
  */
 runeclient.game.Game.prototype.save = function(saved) {
-    if (!this.m_id) return Promise.resolve();
+    if (!this.m_id || this.m_pending) return Promise.resolve();
     var data;
     try {
         data = this.m_view.read();
@@ -137,6 +155,7 @@ runeclient.game.Game.prototype.save = function(saved) {
     }
     var self = this;
     var request = this.m_request;
+    this.m_pending = true;
     this.m_view.busy(true);
     this.m_view.message("Saving…");
     return this.m_api.put("games/" + encodeURIComponent(this.m_id), this.m_session.get(), data).then(function() {
@@ -147,6 +166,38 @@ runeclient.game.Game.prototype.save = function(saved) {
     }).catch(function(error) {
         if (request === self.m_request) self.m_view.error(error);
     }).then(function() {
-        if (request === self.m_request) self.m_view.busy(false);
+        if (request === self.m_request) {
+            self.m_pending = false;
+            self.m_view.busy(false);
+        }
+    });
+};
+
+/**
+ * Confirms and deletes this game's global highscores without changing metadata.
+ *
+ * @returns {Promise<undefined>}
+ */
+runeclient.game.Game.prototype.clearHighscores = function() {
+    if (!this.m_id || this.m_pending) return Promise.resolve();
+    var self = this;
+    var request = this.m_request;
+    var id = this.m_id;
+    var message = 'Clear all global highscores for "' + id + '"? This cannot be undone. Locally stored scores may be uploaded again during the next sync.';
+    return this.m_confirmation.ask(message).then(function(confirmed) {
+        if (!confirmed || request !== self.m_request || self.m_pending) return;
+        self.m_pending = true;
+        self.m_view.busy(true);
+        self.m_view.message("Clearing global highscores…");
+        return self.m_api.remove("games/" + encodeURIComponent(id) + "/highscores", self.m_session.get()).then(function() {
+            if (request === self.m_request) self.m_view.message("Global highscores cleared.");
+        }).catch(function(error) {
+            if (request === self.m_request) self.m_view.error(error);
+        }).then(function() {
+            if (request === self.m_request) {
+                self.m_pending = false;
+                self.m_view.busy(false);
+            }
+        });
     });
 };

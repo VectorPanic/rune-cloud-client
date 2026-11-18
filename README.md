@@ -15,6 +15,7 @@ The client is written in HTML, CSS, and vanilla JavaScript. It is an early-stage
 - Edit game metadata, including descriptions, player settings, input methods, and weighted tags.
 - Manage versions and upload JavaScript files and PNG game icons.
 - Publish versions through the Rune Cloud API.
+- Clear an owned game's global highscores, for example during testing.
 
 Not all Rune Cloud functionality is available through the client.
 

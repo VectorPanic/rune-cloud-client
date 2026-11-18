@@ -81,6 +81,10 @@ section {
     border-radius: var(--radius);
 }
 
+[aria-labelledby="highscores-title"] {
+    margin-top: 1.5rem;
+}
+
 [data-login] {
     max-width: 44rem;
     margin-inline: auto;
